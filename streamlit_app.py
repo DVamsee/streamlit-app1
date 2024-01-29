@@ -25,7 +25,7 @@ from dependencies import is_admin, is_staff, is_user
 import yaml
 from yaml.loader import SafeLoader
 
-with open('/streamlit-app1/config.yaml') as file:
+with open('/mount/src/streamlit-app1/streamlit_app.py') as file:
     config = yaml.load(file, Loader=SafeLoader)
 
 authenticator = stauth.Authenticate(

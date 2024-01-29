@@ -25,7 +25,7 @@ from dependencies import is_admin, is_staff, is_user
 import yaml
 from yaml.loader import SafeLoader
 
-with open('/src/streamlit-app1/config.yaml') as file:
+with open('/streamlit-app1/config.yaml') as file:
     config = yaml.load(file, Loader=SafeLoader)
 
 authenticator = stauth.Authenticate(
@@ -35,6 +35,7 @@ authenticator = stauth.Authenticate(
     config['cookie']['expiry_days'],
     config['preauthorized']
 )
+
 
 def reset_password_form():
     """

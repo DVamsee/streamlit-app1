@@ -1,0 +1,43 @@
+cookie:
+  expiry_days: 30
+  key: qwerty
+  name: streamlit_app
+credentials:
+  usernames:
+    admin:
+      email: admin@gmail.com
+      logged_in: true
+      name: admin
+      password: $2b$12$n1EA282IqjghSWAl3JYoRuJKBQlV1Miw0u/LH/WLIPH47Q31dDpUa
+    jsmith:
+      email: jsmith@gmail.com
+      logged_in: false
+      name: John Smith
+      password: $2b$12$nRxV5bJiGn0K6Q8fw8GHvueg2XTSZnPfO8cu0d7rB3FQXif0O01VG
+    rbriggs:
+      email: rbriggs@gmail.com
+      logged_in: false
+      name: Rebecca Briggs
+      password: $2b$12$wchmL2D5sFrybg7i6xEQ4.1alwm5TCmU9ZB6Z2manNRgL.xhajZCK
+    test:
+      email: test1@gmail.com
+      logged_in: false
+      name: test
+      password: $2b$12$Ok0yn9EnlSDPP6WeK5A4dOsiurIf2560TuHT2acoIE.vxsyfWQ.OO
+    vamsee:
+      email: vamsee@gmail.com
+      logged_in: false
+      name: vamsee
+      password: $2b$12$jsmDIunDPO137tzBt2gDK.E9JFJQw4z9bnEu/LvziaabzcpI5Pdf.
+preauthorized:
+  emails:
+  - melsby@gmail.com
+roles:
+  admin:
+  - admin
+  staff:
+  - vamasee
+  - test
+  user:
+  - jsmith
+  - rbriggs

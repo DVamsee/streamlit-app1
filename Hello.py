@@ -17,35 +17,71 @@ from streamlit.logger import get_logger
 
 LOGGER = get_logger(__name__)
 
+import streamlit as st
+import streamlit_authenticator as stauth
 
-def run():
-    st.set_page_config(
-        page_title="Hello",
-        page_icon="👋",
-    )
+from dependencies import is_admin, is_staff, is_user
 
-    st.write("# Welcome to Streamlit! 👋")
+import yaml
+from yaml.loader import SafeLoader
 
-    st.sidebar.success("Select a demo above.")
+with open('config.yaml') as file:
+    config = yaml.load(file, Loader=SafeLoader)
 
-    st.markdown(
-        """
-        Streamlit is an open-source app framework built specifically for
-        Machine Learning and Data Science projects.
-        **👈 Select a demo from the sidebar** to see some examples
-        of what Streamlit can do!
-        ### Want to learn more?
-        - Check out [streamlit.io](https://streamlit.io)
-        - Jump into our [documentation](https://docs.streamlit.io)
-        - Ask a question in our [community
-          forums](https://discuss.streamlit.io)
-        ### See more complex demos
-        - Use a neural net to [analyze the Udacity Self-driving Car Image
-          Dataset](https://github.com/streamlit/demo-self-driving)
-        - Explore a [New York City rideshare dataset](https://github.com/streamlit/demo-uber-nyc-pickups)
+authenticator = stauth.Authenticate(
+    config['credentials'],
+    config['cookie']['name'],
+    config['cookie']['key'],
+    config['cookie']['expiry_days'],
+    config['preauthorized']
+)
+
+def reset_password_form():
     """
-    )
+    Reset password form
+    """
+    if st.session_state["authentication_status"]:
+        try:
+            if authenticator.reset_password(st.session_state["username"],location='sidebar'):
+                with open('config.yaml', 'w') as file:
+                    yaml.dump(config, file, default_flow_style=False)
+                st.success('Password modified successfully')
+        except Exception as e:
+            st.error(e)
 
 
-if __name__ == "__main__":
-    run()
+authenticator.login()
+
+if st.session_state["authentication_status"]:
+    with st.sidebar:
+        reset_password = st.button('Reset Password',on_click=reset_password_form)
+        authenticator.logout()
+    
+    st.title('Home Page')
+    username = st.session_state["username"]
+    if is_admin(config, username) or is_staff(config, username):
+        try:
+            st.subheader('Register User')
+            role = st.selectbox(f'Select the type of user to register', ['admin', 'staff', 'user'], index=2)
+            email, username, name = authenticator.register_user(fields={"Form name":''}, preauthorization=False)
+            if username:
+                if role == 'admin':
+                    config['roles']['admin'].append(username)
+                if role == 'staff':
+                    config['roles']['staff'].append(username)
+                if role == 'user':
+                    config['roles']['user'].append(username)
+                with open('config.yaml', 'w') as file:
+                    yaml.dump(config, file, default_flow_style=False)
+                st.success(f'User {name} registered as {role}')
+        except Exception as e:
+            st.error(e)
+            
+
+
+elif st.session_state["authentication_status"] is False:
+    st.error('Username/password is incorrect')
+elif st.session_state["authentication_status"] is None:
+    st.warning('Please enter your username and password')
+
+

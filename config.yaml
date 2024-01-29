@@ -36,7 +36,7 @@ roles:
   admin:
   - admin
   staff:
-  - vamasee
+  - vamsee
   - test
   user:
   - jsmith

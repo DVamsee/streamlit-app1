@@ -19,13 +19,16 @@ LOGGER = get_logger(__name__)
 
 import streamlit as st
 import streamlit_authenticator as stauth
+import os
 
 from dependencies import is_admin, is_staff, is_user
 
 import yaml
 from yaml.loader import SafeLoader
 
-with open('/mount/src/streamlit-app1/config.yaml') as file:
+cwd = os.getcwd()
+
+with open('config.yaml') as file:
     config = yaml.load(file, Loader=SafeLoader)
 
 authenticator = stauth.Authenticate(

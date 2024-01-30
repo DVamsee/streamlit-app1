@@ -42,7 +42,7 @@ authenticator.login()
 
 
 if st.session_state["authentication_status"]:
-    st.title('Home Page')
+    st.title(':rainbow[Home Page]')
     with st.sidebar:
         st.subheader(f' Hi! {st.session_state["name"]}')
         with st.expander("Register new user", expanded=False):

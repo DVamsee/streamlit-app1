@@ -2,9 +2,14 @@ import streamlit as st
 import streamlit_authenticator as stauth
 
 from dependencies import is_admin, is_staff, is_user
+import os
 
 import yaml
 from yaml.loader import SafeLoader
+import pandas as pd 
+import numpy as np
+
+st.set_page_config(layout="wide")
 
 with open('config.yaml') as file:
     config = yaml.load(file, Loader=SafeLoader)
@@ -65,8 +70,40 @@ if st.session_state["authentication_status"]:
 
     with tab1:
         st.subheader('Orders Analytics')
-        st.write('This is the orders page')            
-    
+        df = pd.read_csv('data/list_of_orders.csv')
+        # st.dataframe(df.head(10))
+        col1, col2 = st.columns(2)
+        with col1:
+            st.subheader('State wise orders')
+            st.line_chart(df.groupby('State').count()['Order ID'])
+            with st.expander("view source table", expanded=False):
+                st.dataframe(df.groupby('State').count()['Order ID'], use_container_width=True)
+
+        with col2:
+            st.subheader('City wise orders')
+            st.line_chart(df.groupby('City').count()['Order ID'])
+            with st.expander("view source table", expanded=False):
+                st.dataframe(df.groupby('City').count()['Order ID'], use_container_width=True)
+        
+
+        order_df = pd.read_csv('data/order_details.csv')
+        # st.dataframe(order_df.head(10))
+        with col1:
+            st.subheader('Most profit by order category')
+            st.bar_chart(order_df.groupby('Category').sum()['Profit'])
+            with st.expander("view source table", expanded=False):
+                st.dataframe(order_df.groupby('Category').sum()['Profit'], use_container_width=True)
+
+        with col2:
+            st.subheader('Most profit by order sub-category')
+            st.bar_chart(order_df.groupby('Sub-Category').sum()['Profit'])
+            with st.expander("view source table", expanded=False):
+                st.dataframe(order_df.groupby('Sub-Category').sum()['Profit'], use_container_width=True)
+
+
+
+
+
 
 
 

@@ -9,6 +9,11 @@ credentials:
       logged_in: true
       name: admin
       password: $2b$12$n1EA282IqjghSWAl3JYoRuJKBQlV1Miw0u/LH/WLIPH47Q31dDpUa
+    gokul:
+      email: gokul@gmail.com
+      logged_in: false
+      name: gokul
+      password: $2b$12$opwotfcHjKgP4y0ZO3Dx1uAXwuNSkGs5H0ghlxSxrQzWCQEKWFRnm
     jsmith:
       email: jsmith@gmail.com
       logged_in: false
@@ -41,3 +46,4 @@ roles:
   user:
   - jsmith
   - rbriggs
+  - gokul

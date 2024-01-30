@@ -22,13 +22,15 @@ authenticator = stauth.Authenticate(
     config['preauthorized']
 )
 
-def reset_password_form():
+def reset_password_form(**kwargs):
     """
     Reset password form
     """
+    config = kwargs.get('config',{})
     if st.session_state["authentication_status"]:
         try:
-            if authenticator.reset_password(st.session_state["username"],location='sidebar'):
+            reset_pass = authenticator.reset_password(st.session_state["username"],location='sidebar')
+            if reset_pass:
                 with open('config.yaml', 'w') as file:
                     yaml.dump(config, file, default_flow_style=False)
                 st.success('Password modified successfully')
@@ -62,7 +64,7 @@ if st.session_state["authentication_status"]:
                         st.success(f'User {name} registered as {role}')
                 except Exception as e:
                     st.error(e)
-        reset_password = st.button('Reset Password',on_click=reset_password_form)
+        reset_password = st.button('Reset Password',on_click=reset_password_form, kwargs={'config':config})
         authenticator.logout()
 
 
@@ -78,12 +80,14 @@ if st.session_state["authentication_status"]:
             st.line_chart(df.groupby('State').count()['Order ID'])
             with st.expander("view source table", expanded=False):
                 st.dataframe(df.groupby('State').count()['Order ID'], use_container_width=True)
+            st.divider()
 
         with col2:
             st.subheader('City wise orders')
             st.line_chart(df.groupby('City').count()['Order ID'])
             with st.expander("view source table", expanded=False):
                 st.dataframe(df.groupby('City').count()['Order ID'], use_container_width=True)
+            st.divider()
         
 
         order_df = pd.read_csv('data/order_details.csv')
@@ -93,12 +97,14 @@ if st.session_state["authentication_status"]:
             st.bar_chart(order_df.groupby('Category').sum()['Profit'])
             with st.expander("view source table", expanded=False):
                 st.dataframe(order_df.groupby('Category').sum()['Profit'], use_container_width=True)
+        
 
         with col2:
             st.subheader('Most profit by order sub-category')
             st.bar_chart(order_df.groupby('Sub-Category').sum()['Profit'])
             with st.expander("view source table", expanded=False):
                 st.dataframe(order_df.groupby('Sub-Category').sum()['Profit'], use_container_width=True)
+            
 
 
 

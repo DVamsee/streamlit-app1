@@ -120,7 +120,7 @@ if st.session_state["authentication_status"]:
         with col2:
             st.subheader('Productline gross income')
             chart_data = df.groupby('Product line').sum()['gross income']
-            st.line_chart(chart_data, use_container_width=True)
+            st.area_chart(chart_data, use_container_width=True)
 
 
 

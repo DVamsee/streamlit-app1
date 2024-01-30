@@ -95,8 +95,6 @@ if st.session_state["authentication_status"]:
             return data
 
 
-        data_load_state = st.text('Loading data...')
-
         data = load_data(10000)
 
         if st.checkbox('Show raw data'):

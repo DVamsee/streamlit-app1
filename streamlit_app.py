@@ -60,7 +60,14 @@ if st.session_state["authentication_status"]:
         reset_password = st.button('Reset Password',on_click=reset_password_form)
         authenticator.logout()
 
-            
+
+    tab1, tab2 = st.tabs(["Orders", "Sales"])
+
+    with tab1:
+        st.subheader('Orders Analytics')
+        st.write('This is the orders page')            
+    
+
 
 
 elif st.session_state["authentication_status"] is False:

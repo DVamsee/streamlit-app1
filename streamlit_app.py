@@ -77,7 +77,7 @@ if st.session_state["authentication_status"]:
         col1, col2 = st.columns(2)
         with col1:
             st.subheader('State wise orders')
-            st.line_chart(df.groupby('State').count()['Order ID'])
+            st.bar_chart(df.groupby('State').count()['Order ID'])
             with st.expander("view source table", expanded=False):
                 st.dataframe(df.groupby('State').count()['Order ID'], use_container_width=True)
             st.divider()
@@ -104,7 +104,23 @@ if st.session_state["authentication_status"]:
             st.bar_chart(order_df.groupby('Sub-Category').sum()['Profit'])
             with st.expander("view source table", expanded=False):
                 st.dataframe(order_df.groupby('Sub-Category').sum()['Profit'], use_container_width=True)
-            
+
+
+    with tab2:
+        st.subheader('Sales Analytics of a supermarket')     
+        col1, col2 = st.columns(2)
+        df = pd.read_csv('data/supermarket_sales.csv')
+        # st.dataframe(df.head(10))
+
+        with col1:
+            st.subheader('Sales by product line')
+            chart_data = df.groupby(['Product line','Gender']).count()['Invoice ID'].unstack()
+            st.line_chart(chart_data, use_container_width=True)
+        
+        with col2:
+            st.subheader('Productline gross income')
+            chart_data = df.groupby('Product line').sum()['gross income']
+            st.line_chart(chart_data, use_container_width=True)
 
 
 

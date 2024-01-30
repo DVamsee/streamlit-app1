@@ -1,7 +1,7 @@
 cookie:
-  expiry_days: 30
+  expiry_days: 1
   key: qwerty
-  name: streamlit_app
+  name: streamlit_app1
 credentials:
   usernames:
     admin:

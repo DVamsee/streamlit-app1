@@ -81,7 +81,7 @@ if st.session_state["authentication_status"]:
         )
         st.map(map_data)
 
-    with tab2:
+    # with tab2:
         # DATE_COLUMN = 'date/time'
         # DATA_URL = ('https://s3-us-west-2.amazonaws.com/'
         #         'streamlit-demo-data/uber-raw-data-sep14.csv.gz')
